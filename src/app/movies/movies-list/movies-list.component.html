@@ -1,0 +1,6 @@
+<alert type="primary">movies-list works! chosen list:</alert>
+<ul>
+  <li *ngFor="let movie of filteredList">
+    <a name="1" [routerLink]="['/movies', movie.id]">{{ movie.title }}</a>
+  </li>
+</ul>
