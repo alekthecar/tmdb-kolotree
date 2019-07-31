@@ -8,6 +8,7 @@ import { TmdbApiService } from "src/app/services/tmbd-api.service";
   styleUrls: ["./movies-navigation.component.css"]
 })
 export class MoviesNavigationComponent implements OnInit {
+  title: string = "TMDB MOVIES";
   popularMovies: Movie[];
   upcomingMovies: Movie[];
   activeList: Movie[];
@@ -44,9 +45,11 @@ export class MoviesNavigationComponent implements OnInit {
 
   setPopular() {
     this.filteredList = this.popularMovies;
+    this.filterText = "";
   }
-
+  
   setUpcoming() {
     this.filteredList = this.upcomingMovies;
+    this.filterText = "";
   }
 }
