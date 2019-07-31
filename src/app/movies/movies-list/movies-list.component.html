@@ -1,6 +1,33 @@
-<alert type="primary">movies-list works! chosen list:</alert>
-<ul>
-  <li *ngFor="let movie of filteredList">
-    <a name="1" [routerLink]="['/movies', movie.id]">{{ movie.title }}</a>
-  </li>
-</ul>
+<div class="container">
+  <div class="row justify-content-center my-3">
+    <h1 class="text-success">TOP 20 {{ movieType }} MOVIES</h1>
+  </div>
+  
+  <div
+    class="row my-0 align-items-center bg-dark text-warning"
+    *ngFor="let movie of filteredList"
+    style="border-bottom:1px solid #ccc;"
+  >
+    <div class="col-sm-3 my-2">
+      <img
+        *ngIf="movie.poster_path; else imageInfo"
+        src="{{ 'http://image.tmdb.org/t/p/w92' + movie.poster_path }}"
+        alt=""
+        [routerLink]="['/movies', movie.id]"
+        class="img-thumbnail"
+      />
+    </div>
+    <div class="col-sm-3 mb-1">
+      <p style="color: white; margin: 0; padding: 0; display: inline">TITLE</p>
+      <br />{{ movie.title }}
+    </div>
+    <div class="col-sm-6 mb-1">
+      <p>OVERVIEW</p>
+      <br />{{ movie.overview | overviewCutter: 20 }}
+    </div>
+  </div>
+</div>
+
+<ng-template #imageInfo>
+  <p>poster<br />unavailable</p>
+</ng-template>

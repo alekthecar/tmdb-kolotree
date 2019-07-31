@@ -11,6 +11,7 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TmdbApiService } from './services/tmbd-api.service';
+import { OverviewCutterPipe } from './pipes/overview-cutter.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TmdbApiService } from './services/tmbd-api.service';
     MoviesNavigationComponent,
     MoviesListComponent,
     MovieDetailsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    OverviewCutterPipe
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, AlertModule.forRoot()],
   providers: [TmdbApiService],

@@ -1,0 +1,10 @@
+.img-thumbnail:hover {
+    cursor: pointer;
+}
+
+p {
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: inline;
+}

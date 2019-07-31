@@ -9,11 +9,12 @@ import { TmdbApiService } from "src/app/services/tmbd-api.service";
 })
 export class MoviesNavigationComponent implements OnInit {
   title: string = "TMDB MOVIES";
+  chosenType: string = "POPULAR";
+  filterText: string;
   popularMovies: Movie[];
   upcomingMovies: Movie[];
   activeList: Movie[];
   filteredList: Movie[];
-  filterText: string;
 
   constructor(private tmdbApiService: TmdbApiService) {}
 
@@ -45,11 +46,13 @@ export class MoviesNavigationComponent implements OnInit {
 
   setPopular() {
     this.filteredList = this.popularMovies;
+    this.chosenType = "POPULAR";
     this.filterText = "";
   }
   
   setUpcoming() {
     this.filteredList = this.upcomingMovies;
+    this.chosenType = "UPCOMING";
     this.filterText = "";
   }
 }

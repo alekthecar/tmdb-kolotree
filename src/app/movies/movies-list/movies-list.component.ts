@@ -8,15 +8,9 @@ import { Movie } from "src/app/model/movie";
 })
 export class MoviesListComponent implements OnInit {
 
-  @Input() private _filteredList: Movie[];
+  @Input() filteredList: Movie[];
+  @Input() movieType: string;
   
-  public get filteredList(): Movie[] {
-    return this._filteredList;
-  }
-  public set filteredList(value: Movie[]) {
-    this._filteredList = value;
-  }
-
   constructor() {}
 
   ngOnInit() {}
