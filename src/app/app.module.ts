@@ -8,10 +8,10 @@ import { MoviesNavigationComponent } from "./movies/movies-navigation/movies-nav
 import { MoviesListComponent } from "./movies/movies-list/movies-list.component";
 import { MovieDetailsComponent } from "./movies/movie-details/movie-details.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { TmdbApiService } from './services/tmbd-api.service';
-import { OverviewCutterPipe } from './pipes/overview-cutter.pipe';
+import { AppComponent } from "./app.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { TmdbApiService } from "./services/tmbd-api.service";
+import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
 
 @NgModule({
   declarations: [
@@ -22,7 +22,13 @@ import { OverviewCutterPipe } from './pipes/overview-cutter.pipe';
     PageNotFoundComponent,
     OverviewCutterPipe
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, AlertModule.forRoot()],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    AlertModule.forRoot()
+  ],
   providers: [TmdbApiService],
   bootstrap: [AppComponent]
 })

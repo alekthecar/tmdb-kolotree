@@ -1,1 +1,104 @@
-<alert type="warning">movie-details works! id of chosen movie is: {{ movieId }}</alert>
+<div class="container">
+  <div class="row justify-content-center my-3">
+    <button class="btn btn-outline-success btn-lg" (click)="onBack()">
+      BACK
+    </button>
+  </div>
+
+  <div class="row justify-content-center my-3">
+    <div class="text-center">
+      <img
+        *ngIf="movie.poster_path; else noPhoto"
+        src="{{ 'https://image.tmdb.org/t/p/w342' + movie.poster_path }}"
+        alt="{{ movie.title }}"
+        class="img-fluid"
+      />
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col-sm-4 text-dark">TITLE</div>
+    <div class="col-sm-8 text-dark">{{ movie.title }}</div>
+  </div>
+  <div class="row my-3">
+    <div class="col-sm-4 text-dark">GENRES</div>
+    <div class="col-sm-8 text-dark">
+      <span *ngFor="let g of movie.genres">
+        {{ g.name + "&emsp;" }}
+      </span>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col-sm-4 text-dark">RELEASE DATE</div>
+    <div class="col-sm-8 text-dark">{{ movie.release_date }}</div>
+  </div>
+  <div class="row my-3">
+    <div class="col-sm-4 text-dark">OVERVIEW</div>
+    <div class="col-sm-8 text-dark">{{ movie.overview }}</div>
+  </div>
+  <div class="row my-0 bg-dark">
+    <div class="col-sm-4 text-light">TRAILER</div>
+    <div class="col-sm-8 embed-responsive embed-responsive-16by9">
+      <iframe
+        *ngIf="movie.youtube_key; else noVideo"
+        width="560"
+        height="315"
+        [src]="
+          sanitizer.bypassSecurityTrustResourceUrl(
+            'https://www.youtube.com/embed/' + movie.youtube_key
+          )
+        "
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        class="embed-responsive-item"
+      >
+      </iframe>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-5 ">
+    <h2 class="text-success">CAST</h2>
+  </div>
+
+  <div
+    class="row my-0 align-items-center bg-dark text-warning"
+    *ngFor="let person of movieCast"
+    style="border-bottom:1px solid #ccc;"
+  >
+    <div class="col-sm-4 my-2">
+      <img
+        *ngIf="person.profile_path; else noPhoto"
+        src="{{ 'http://image.tmdb.org/t/p/w92' + person.profile_path }}"
+        alt="{{ person.name }}"
+        class="img-thumbnail"
+      />
+    </div>
+    <div class="col-sm-4 mb-1">
+      <p>NAME</p>
+      <br />{{ person.name }}
+    </div>
+    <div
+      class="col-sm-4 mb-1"
+      *ngIf="person.character !== ''; else noCharacter"
+    >
+      <p>CHARACTER</p>
+      <br />{{ person.character }}
+    </div>
+  </div>
+</div>
+
+<ng-template #noCharacter>
+  <div class="col mb-3">
+    <p>CHARACTER</p>
+    <br />unknown
+  </div>
+</ng-template>
+
+<ng-template #noPhoto>
+  <p class="font-weight-bold">photo<br />unavailable</p>
+</ng-template>
+
+<ng-template #noVideo>
+  <p>video<br />unavailable</p>
+</ng-template>

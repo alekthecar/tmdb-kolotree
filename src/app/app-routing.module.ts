@@ -7,8 +7,8 @@ import { MoviesNavigationComponent } from './movies/movies-navigation/movies-nav
 
 const routes: Routes = [
   { path: "", redirectTo: "/movies", pathMatch: "full" },
-  { path: "movies", component: MoviesNavigationComponent },
   { path: "movies/:id", component: MovieDetailsComponent },
+  { path: "movies", component: MoviesNavigationComponent },
   { path: "**", component: PageNotFoundComponent }
 ];
 

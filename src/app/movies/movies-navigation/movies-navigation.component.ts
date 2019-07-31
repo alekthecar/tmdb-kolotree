@@ -8,7 +8,6 @@ import { TmdbApiService } from "src/app/services/tmbd-api.service";
   styleUrls: ["./movies-navigation.component.css"]
 })
 export class MoviesNavigationComponent implements OnInit {
-  title: string = "TMDB MOVIES";
   chosenType: string = "POPULAR";
   filterText: string;
   popularMovies: Movie[];
@@ -24,15 +23,12 @@ export class MoviesNavigationComponent implements OnInit {
         this.tmdbApiService.convertToModelMovie(e)
       );
       this.activeList = this.popularMovies;
-      console.log(this.activeList);
       this.filteredList = this.activeList;
-      console.log(this.filteredList);
     });
     this.tmdbApiService.getMovies('upcoming').subscribe(data => {
       this.upcomingMovies = data.results.map(e =>
         this.tmdbApiService.convertToModelMovie(e)
       );
-      console.log(this.upcomingMovies);
     });
   }
 
