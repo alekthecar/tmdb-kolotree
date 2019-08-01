@@ -18,14 +18,14 @@ export class MoviesNavigationComponent implements OnInit {
   constructor(private tmdbApiService: TmdbApiService) {}
 
   ngOnInit() {
-    this.tmdbApiService.getMovies('popular').subscribe(data => {
+    this.tmdbApiService.getMovies("popular").subscribe(data => {
       this.popularMovies = data.results.map(e =>
         this.tmdbApiService.convertToModelMovie(e)
       );
       this.activeList = this.popularMovies;
       this.filteredList = this.activeList;
     });
-    this.tmdbApiService.getMovies('upcoming').subscribe(data => {
+    this.tmdbApiService.getMovies("upcoming").subscribe(data => {
       this.upcomingMovies = data.results.map(e =>
         this.tmdbApiService.convertToModelMovie(e)
       );
@@ -40,15 +40,9 @@ export class MoviesNavigationComponent implements OnInit {
     );
   }
 
-  setPopular() {
-    this.filteredList = this.popularMovies;
-    this.chosenType = "POPULAR";
-    this.filterText = "";
-  }
-  
-  setUpcoming() {
-    this.filteredList = this.upcomingMovies;
-    this.chosenType = "UPCOMING";
+  chooseList(movies: Movie[], type: string) {
+    this.filteredList = movies;
+    this.chosenType = type;
     this.filterText = "";
   }
 }

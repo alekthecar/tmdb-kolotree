@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 
 import { Movie } from "../model/movie";
 import { environment } from "../../environments/environment";
+import { Cast } from "../model/cast";
 
 @Injectable()
 export class TmdbApiService {
@@ -21,6 +22,14 @@ export class TmdbApiService {
     movie.genres = e.genres;
     movie.release_date = e.release_date;
     return movie;
+  }
+
+  convertToCast(e: any): Cast {
+    var cast = new Cast();
+    cast.name = e.name;
+    cast.character = e.character;
+    cast.profile_path = e.profile_path;
+    return cast;
   }
 
   getMovies(type: string): Observable<any> {

@@ -34,19 +34,9 @@ export class MovieDetailsComponent implements OnInit {
     });
     this.tmdbApiService.getMovieCastByMovieId(id).subscribe(data => {
       data.cast.forEach(element => {
-        this.movieCast.push(this.convertToCast(element));
+        this.movieCast.push(this.tmdbApiService.convertToCast(element));
       });
     });
-    // console.log(this.movie);
-    // console.log(this.movieCast);
-  }
-
-  convertToCast(e: any): Cast {
-    var cast = new Cast();
-    cast.name = e.name;
-    cast.character = e.character;
-    cast.profile_path = e.profile_path;
-    return cast;
   }
 
   onBack(): void {
