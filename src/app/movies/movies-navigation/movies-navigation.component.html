@@ -13,12 +13,12 @@
           <div class="dropdown-menu">
             <a
               class="dropdown-item"
-              (click)="chooseList(popularMovies, 'POPULAR')"
+              (click)="chooseListFromMenu('POPULAR', popularMovies)"
               >Popular</a
             >
             <a
               class="dropdown-item"
-              (click)="chooseList(upcomingMovies, 'UPCOMING')"
+              (click)="chooseListFromMenu('UPCOMING', upcomingMovies)"
               >Upcoming</a
             >
           </div>
@@ -43,5 +43,3 @@
     </div>
   </div>
 </nav>
-
-<app-movies-list [filteredList]="filteredList" [movieType]="chosenType"></app-movies-list>

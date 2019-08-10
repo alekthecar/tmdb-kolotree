@@ -4,13 +4,14 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { AlertModule } from "ngx-bootstrap";
 
+import { AppComponent } from "./app.component";
 import { MoviesNavigationComponent } from "./movies/movies-navigation/movies-navigation.component";
 import { MoviesListComponent } from "./movies/movies-list/movies-list.component";
 import { MovieDetailsComponent } from "./movies/movie-details/movie-details.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
-import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { TmdbApiService } from "./services/tmbd-api.service";
+import { InteractionService } from './services/interaction.service';
 import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
 
 @NgModule({
@@ -29,7 +30,7 @@ import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
     HttpClientModule,
     AlertModule.forRoot()
   ],
-  providers: [TmdbApiService],
+  providers: [TmdbApiService, InteractionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,11 +1,16 @@
 <div class="container">
   <div class="row justify-content-center my-3">
-    <h1 class="text-success">TOP 20 {{ movieType }} MOVIES</h1>
+    <h1
+      class="text-success"
+      *ngIf="moviesData.textFilter === ''; else slicedTitle"
+    >
+      TOP 20 {{ moviesData.type }} MOVIES
+    </h1>
   </div>
-  
+
   <div
     class="row my-0 align-items-center bg-dark text-warning"
-    *ngFor="let movie of filteredList"
+    *ngFor="let movie of moviesData.list"
     style="border-bottom:1px solid #ccc;"
   >
     <div class="col-sm-3 my-2">
@@ -30,4 +35,8 @@
 
 <ng-template #imageInfo>
   <p>poster<br />unavailable</p>
+</ng-template>
+
+<ng-template #slicedTitle>
+  <h1 class="text-success">SEARCHED {{ moviesData.type }} MOVIES</h1>
 </ng-template>

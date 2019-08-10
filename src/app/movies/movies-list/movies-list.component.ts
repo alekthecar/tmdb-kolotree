@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Movie } from "src/app/model/movie";
+import { InteractionService } from "src/app/services/interaction.service";
+import { MoviesSelector } from "src/app/model/moviesSelector";
 
 @Component({
   selector: "app-movies-list",
@@ -7,11 +8,13 @@ import { Movie } from "src/app/model/movie";
   styleUrls: ["./movies-list.component.css"]
 })
 export class MoviesListComponent implements OnInit {
+  moviesData: MoviesSelector;
 
-  @Input() filteredList: Movie[];
-  @Input() movieType: string;
-  
-  constructor() {}
+  constructor(private _interactionService: InteractionService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._interactionService.selection$.subscribe(
+      data => (this.moviesData = data)
+    );
+  }
 }

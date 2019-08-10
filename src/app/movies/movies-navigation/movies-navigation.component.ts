@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Movie } from "src/app/model/movie";
+import { MoviesSelector } from "src/app/model/moviesSelector";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
+import { InteractionService } from "src/app/services/interaction.service";
 
 @Component({
   selector: "app-movies-navigation",
@@ -9,13 +11,17 @@ import { TmdbApiService } from "src/app/services/tmbd-api.service";
 })
 export class MoviesNavigationComponent implements OnInit {
   chosenType: string = "POPULAR";
-  filterText: string;
+  filterText: string = "";
   popularMovies: Movie[];
   upcomingMovies: Movie[];
   activeList: Movie[];
   filteredList: Movie[];
+  selector: MoviesSelector = new MoviesSelector();
 
-  constructor(private tmdbApiService: TmdbApiService) {}
+  constructor(
+    private tmdbApiService: TmdbApiService,
+    private _interactionService: InteractionService
+  ) {}
 
   ngOnInit() {
     this.tmdbApiService.getMovies("popular").subscribe(data => {
@@ -24,6 +30,7 @@ export class MoviesNavigationComponent implements OnInit {
       );
       this.activeList = this.popularMovies;
       this.filteredList = this.activeList;
+      this.sendDataToMovieList(this.chosenType, this.popularMovies, this.filterText);
     });
     this.tmdbApiService.getMovies("upcoming").subscribe(data => {
       this.upcomingMovies = data.results.map(e =>
@@ -38,11 +45,20 @@ export class MoviesNavigationComponent implements OnInit {
       (movie: Movie) =>
         movie.title.toLocaleLowerCase().indexOf(textInput) !== -1
     );
+    this.sendDataToMovieList(this.chosenType, this.filteredList, textInput);
   }
 
-  chooseList(movies: Movie[], type: string) {
-    this.filteredList = movies;
+  chooseListFromMenu(type: string, list: Movie[]): void {
     this.chosenType = type;
+    this.filteredList = list;
     this.filterText = "";
+    this.sendDataToMovieList(type, list, this.filterText);
+  }
+
+  sendDataToMovieList(type: string, list: Movie[], filter: string): void {
+    this.selector.type = type;
+    this.selector.list = list;
+    this.selector.textFilter = filter;
+    this._interactionService.selectMovies(this.selector);
   }
 }
