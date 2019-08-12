@@ -5,7 +5,7 @@ import { Movie } from "src/app/model/movie";
 import { Cast } from "src/app/model/cast";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
 import { DomSanitizer } from "@angular/platform-browser";
-import { MovieidTransferService } from 'src/app/services/movieid-transfer.service';
+import { MovieidTransferService } from "src/app/services/movieid-transfer.service";
 
 @Component({
   selector: "app-movie-details",
@@ -39,9 +39,7 @@ export class MovieDetailsComponent implements OnInit {
         "https://www.youtube.com/embed/" + this.movie.youtube_key;
     });
     this.tmdbApiService.getMovieCastByMovieId(id).subscribe(data => {
-      data.cast.forEach(element => {
-        this.movieCast.push(this.tmdbApiService.convertToCast(element));
-      });
+      this.movieCast = data;
     });
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 import { Movie } from "../model/movie";
 import { environment } from "../../environments/environment";
@@ -24,21 +25,18 @@ export class TmdbApiService {
     return movie;
   }
 
-  convertToCast(e: any): Cast {
-    var cast = new Cast();
-    cast.name = e.name;
-    cast.character = e.character;
-    cast.profile_path = e.profile_path;
-    return cast;
-  }
-
-  getMovies(type: string): Observable<any> {
-    return this.httpClient.get(
+  getMovies(type: string): Observable<Movie[]> {
+    return this.httpClient.get<Movie[]>(
       this.movie_url_base +
         type +
         "?api_key=" +
         environment.tmdb_api_key +
         "&language=en-US&page=1"
+    )
+    .pipe(
+      map(response => {
+        return response.results;
+      })
     );
   }
 
@@ -52,9 +50,18 @@ export class TmdbApiService {
     );
   }
 
-  getMovieCastByMovieId(id: number): Observable<any> {
-    return this.httpClient.get(
-      this.movie_url_base + id + "/credits?api_key=" + environment.tmdb_api_key
-    );
+  getMovieCastByMovieId(id: number): Observable<Cast[]> {
+    return this.httpClient
+      .get<Cast[]>(
+        this.movie_url_base +
+          id +
+          "/credits?api_key=" +
+          environment.tmdb_api_key
+      )
+      .pipe(
+        map(response => {
+          return response.cast;
+        })
+      );
   }
 }

@@ -32,12 +32,10 @@ export class MoviesNavigationComponent implements OnInit {
   ngOnInit() {
     this._idTransferService.movieId$.subscribe(id => {
       this.selectedMovieId = id;
-      console.log(this.selectedMovieId);
+      // console.log(this.selectedMovieId);
     });
-    this.tmdbApiService.getMovies("popular").subscribe(data => {
-      this.popularMovies = data.results.map(e =>
-        this.tmdbApiService.convertToModelMovie(e)
-      );
+    this.tmdbApiService.getMovies("popular").subscribe(pMovies => {
+      this.popularMovies = pMovies;
       this.activeList = this.popularMovies;
       this.filteredList = this.activeList;
       this.sendDataToMovieList(
@@ -46,10 +44,8 @@ export class MoviesNavigationComponent implements OnInit {
         this.filterText
       );
     });
-    this.tmdbApiService.getMovies("upcoming").subscribe(data => {
-      this.upcomingMovies = data.results.map(e =>
-        this.tmdbApiService.convertToModelMovie(e)
-      );
+    this.tmdbApiService.getMovies("upcoming").subscribe(uMovies => {
+      this.upcomingMovies = uMovies;
     });
   }
 
