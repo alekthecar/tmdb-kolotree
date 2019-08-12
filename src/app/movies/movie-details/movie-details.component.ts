@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-
+import { DomSanitizer } from "@angular/platform-browser";
 import { Movie } from "src/app/model/movie";
 import { Cast } from "src/app/model/cast";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
-import { DomSanitizer } from "@angular/platform-browser";
 import { MovieidTransferService } from "src/app/services/movieid-transfer.service";
 
 @Component({
@@ -26,19 +25,17 @@ export class MovieDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let id = +this.route.snapshot.paramMap.get("id");
-    this.movieId = id;
-    // console.log(this.movieId);
+    this.movieId = +this.route.snapshot.paramMap.get("id");;
     this._idTransferService.sendMovieId(this.movieId);
-    this.tmdbApiService.getMovieById(id).subscribe(data => {
-      this.movie = this.tmdbApiService.convertToModelMovie(data);
+    this.tmdbApiService.getMovieById(this.movieId).subscribe(data => {
+      this.movie = data;
       this.movie.youtube_key = data.videos.results[0]
         ? data.videos.results[0].key
         : "";
       this.movie.video_url =
-        "https://www.youtube.com/embed/" + this.movie.youtube_key;
+      this.tmdbApiService.video_url_base + this.movie.youtube_key;
     });
-    this.tmdbApiService.getMovieCastByMovieId(id).subscribe(data => {
+    this.tmdbApiService.getMovieCastByMovieId(this.movieId).subscribe(data => {
       this.movieCast = data;
     });
   }

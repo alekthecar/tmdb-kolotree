@@ -32,7 +32,6 @@ export class MoviesNavigationComponent implements OnInit {
   ngOnInit() {
     this._idTransferService.movieId$.subscribe(id => {
       this.selectedMovieId = id;
-      // console.log(this.selectedMovieId);
     });
     this.tmdbApiService.getMovies("popular").subscribe(pMovies => {
       this.popularMovies = pMovies;
