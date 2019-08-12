@@ -5,9 +5,9 @@ import { MovieDetailsComponent } from "./movies/movie-details/movie-details.comp
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/movies", pathMatch: "full" },
   { path: "movies", component: MoviesListComponent },
   { path: "movies/:id", component: MovieDetailsComponent },
+  { path: "", redirectTo: "/movies", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }
 ];
 

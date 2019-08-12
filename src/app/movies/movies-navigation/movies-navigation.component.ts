@@ -3,6 +3,7 @@ import { Movie } from "src/app/model/movie";
 import { MoviesSelector } from "src/app/model/moviesSelector";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
 import { InteractionService } from "src/app/services/interaction.service";
+import { MovieidTransferService } from "src/app/services/movieid-transfer.service";
 
 @Component({
   selector: "app-movies-navigation",
@@ -17,20 +18,33 @@ export class MoviesNavigationComponent implements OnInit {
   activeList: Movie[];
   filteredList: Movie[];
   selector: MoviesSelector = new MoviesSelector();
+  selectedMovieId: number = -1;
 
   constructor(
     private tmdbApiService: TmdbApiService,
-    private _interactionService: InteractionService
+    private _interactionService: InteractionService,
+    private _idTransferService: MovieidTransferService
   ) {}
 
+  ngOnChanges() {
+  }
+  
   ngOnInit() {
+    this._idTransferService.movieId$.subscribe(id => {
+      this.selectedMovieId = id;
+      console.log(this.selectedMovieId);
+    });
     this.tmdbApiService.getMovies("popular").subscribe(data => {
       this.popularMovies = data.results.map(e =>
         this.tmdbApiService.convertToModelMovie(e)
       );
       this.activeList = this.popularMovies;
       this.filteredList = this.activeList;
-      this.sendDataToMovieList(this.chosenType, this.popularMovies, this.filterText);
+      this.sendDataToMovieList(
+        this.chosenType,
+        this.popularMovies,
+        this.filterText
+      );
     });
     this.tmdbApiService.getMovies("upcoming").subscribe(data => {
       this.upcomingMovies = data.results.map(e =>
@@ -52,6 +66,7 @@ export class MoviesNavigationComponent implements OnInit {
     this.chosenType = type;
     this.filteredList = list;
     this.filterText = "";
+    this.selectedMovieId = -1;
     this.sendDataToMovieList(type, list, this.filterText);
   }
 
