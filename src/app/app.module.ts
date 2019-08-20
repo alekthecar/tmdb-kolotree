@@ -13,6 +13,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { TmdbApiService } from "./services/tmbd-api.service";
 import { InteractionService } from './services/interaction.service';
 import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [TmdbApiService, InteractionService],
   bootstrap: [AppComponent]

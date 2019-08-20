@@ -27,6 +27,12 @@
               (click)="chooseListFromMenu('UPCOMING', upcomingMovies)"
               [routerLink]="['/movies']"
               >Upcoming</a
+              >
+              <a
+              class="dropdown-item"
+              (click)="chooseListFromMenu('FAVORITE', favoriteMovies)"
+              [routerLink]="['/movies']"
+              >Favorites</a
             >
           </div>
         </li>

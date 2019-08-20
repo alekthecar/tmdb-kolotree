@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Movie } from "src/app/model/movie";
 import { MoviesSelector } from "src/app/model/moviesSelector";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
+import { MongoApiService } from "src/app/services/mongo-api.service";
 import { InteractionService } from "src/app/services/interaction.service";
 import { MovieidTransferService } from "src/app/services/movieid-transfer.service";
 
@@ -15,6 +16,7 @@ export class MoviesNavigationComponent implements OnInit {
   filterText: string = "";
   popularMovies: Movie[];
   upcomingMovies: Movie[];
+  favoriteMovies: Movie[];
   activeList: Movie[];
   filteredList: Movie[];
   selector: MoviesSelector = new MoviesSelector();
@@ -22,13 +24,13 @@ export class MoviesNavigationComponent implements OnInit {
 
   constructor(
     private tmdbApiService: TmdbApiService,
+    private mongoApiService: MongoApiService,
     private _interactionService: InteractionService,
     private _idTransferService: MovieidTransferService
   ) {}
 
-  ngOnChanges() {
-  }
-  
+  ngOnChanges() {}
+
   ngOnInit() {
     this._idTransferService.movieId$.subscribe(id => {
       this.selectedMovieId = id;
@@ -45,6 +47,9 @@ export class MoviesNavigationComponent implements OnInit {
     });
     this.tmdbApiService.getMovies("upcoming").subscribe(uMovies => {
       this.upcomingMovies = uMovies;
+    });
+    this.mongoApiService.getMovies().subscribe(fMovies => {
+      this.favoriteMovies = fMovies;
     });
   }
 

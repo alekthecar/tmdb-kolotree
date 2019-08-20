@@ -1,5 +1,5 @@
 export class Movie {
-  id: number;
+  tmdbid: number;
   title: string;
   poster_path: string;
   overview: string;
