@@ -45,7 +45,7 @@
         <button
           [hidden]="moviesData.type !== 'FAVORITE'"
           class="btn btn-warning"
-          (click)="removeFromFavorites(movie.id)"
+          (click)="removeFromFavorites(movie.mongo_id)"
         >
           <fa-icon class="text-dark" [icon]="trashIcon"></fa-icon>
         </button>

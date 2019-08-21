@@ -25,15 +25,13 @@ export class MovieDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.movieId = +this.route.snapshot.paramMap.get("id");;
+    this.movieId = +this.route.snapshot.paramMap.get("id");
     this._idTransferService.sendMovieId(this.movieId);
     this.tmdbApiService.getMovieById(this.movieId).subscribe(data => {
       this.movie = data;
-      this.movie.youtube_key = data.videos.results[0]
-        ? data.videos.results[0].key
+      this.movie.video_url = data.videos.results[0]
+        ? this.tmdbApiService.video_url_base + data.videos.results[0].key
         : "";
-      this.movie.video_url =
-      this.tmdbApiService.video_url_base + this.movie.youtube_key;
     });
     this.tmdbApiService.getMovieCastByMovieId(this.movieId).subscribe(data => {
       this.movieCast = data;

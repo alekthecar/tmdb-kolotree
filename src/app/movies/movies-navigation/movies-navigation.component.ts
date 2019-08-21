@@ -44,6 +44,7 @@ export class MoviesNavigationComponent implements OnInit {
         this.popularMovies,
         this.filterText
       );
+      console.log(this.popularMovies);
     });
     this.tmdbApiService.getMovies("upcoming").subscribe(uMovies => {
       this.upcomingMovies = uMovies;

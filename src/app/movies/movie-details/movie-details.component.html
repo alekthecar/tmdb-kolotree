@@ -40,7 +40,7 @@
     <div class="col-sm-4 text-light">TRAILER</div>
     <div class="col-sm-8 embed-responsive embed-responsive-16by9">
       <iframe
-        *ngIf="movie.youtube_key; else noVideo"
+        *ngIf="movie.video_url && movie.video_url.length !== 0; else noVideo"
         width="560"
         height="315"
         [src]="

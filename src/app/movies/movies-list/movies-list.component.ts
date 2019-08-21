@@ -31,24 +31,19 @@ export class MoviesListComponent implements OnInit {
   addToFavorites(id: number): void {
     let newFavoriteMovie: Movie = new Movie();
     this._tmdbApiService.getMovieById(id).subscribe(data => {
-      newFavoriteMovie.tmdbid = data.id;
-      newFavoriteMovie.title = data.title;
-      newFavoriteMovie.poster_path = data.poster_path;
-      newFavoriteMovie.overview = data.overview;
-      newFavoriteMovie.genres = data.genres;
-      newFavoriteMovie.release_date = data.release_date;
-      newFavoriteMovie.video_url =
-        this._tmdbApiService.video_url_base +
-        (data.videos.results[0] ? data.videos.results[0].key : "");
+      newFavoriteMovie = data;
+      newFavoriteMovie.video_url = data.videos.results[0]
+        ? this._tmdbApiService.video_url_base + data.videos.results[0].key
+        : "";
       this._mongoApiService
         .addFavoriteMovie(newFavoriteMovie)
         .subscribe(data => console.log(data));
     });
   }
 
-  removeFromFavorites(id: string): void {
+  removeFromFavorites(mongo_id: string): void {
     this._mongoApiService
-      .deleteFavoriteMovie(id)
+      .deleteFavoriteMovie(mongo_id)
       .subscribe(() => console.log("movie deleted"));
   }
 }

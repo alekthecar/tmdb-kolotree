@@ -11,8 +11,7 @@ export class MongoApiService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'my-auth-token'
+      "Content-Type": "application/json"
     })
   };
 
@@ -24,12 +23,16 @@ export class MongoApiService {
 
   addFavoriteMovie(movie: Movie): Observable<Movie> {
     console.log("from addFavoriteMovie");
-    return this.httpClient.post<Movie>(this.url_base + "/add", JSON.stringify(movie), this.httpOptions);
+    return this.httpClient.post<Movie>(
+      this.url_base + "/add",
+      JSON.stringify(movie),
+      this.httpOptions
+    );
   }
-  
-  deleteFavoriteMovie(id: string): Observable<void> {
+
+  deleteFavoriteMovie(mongo_id: string) {
     console.log("from deleteFavoriteMovie");
-    console.log(id);
-    return this.httpClient.delete<void>(this.url_base + "/" + id);
+    console.log(mongo_id);
+    return this.httpClient.delete(this.url_base + "/delete/" + mongo_id);
   }
 }
