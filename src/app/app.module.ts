@@ -14,6 +14,7 @@ import { TmdbApiService } from "./services/tmbd-api.service";
 import { InteractionService } from './services/interaction.service';
 import { OverviewCutterPipe } from "./pipes/overview-cutter.pipe";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AlertModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [TmdbApiService, InteractionService],
+  providers: [TmdbApiService, InteractionService, EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

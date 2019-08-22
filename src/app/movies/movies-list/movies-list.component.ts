@@ -5,6 +5,7 @@ import { faThumbsUp, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Movie } from "src/app/model/movie";
 import { MongoApiService } from "src/app/services/mongo-api.service";
 import { TmdbApiService } from "src/app/services/tmbd-api.service";
+import { EventEmitterService } from "src/app/services/event-emitter.service";
 
 @Component({
   selector: "app-movies-list",
@@ -17,9 +18,10 @@ export class MoviesListComponent implements OnInit {
   trashIcon = faTrash;
 
   constructor(
+    private tmdbApiService: TmdbApiService,
+    private mongoApiService: MongoApiService,
     private _interactionService: InteractionService,
-    private _tmdbApiService: TmdbApiService,
-    private _mongoApiService: MongoApiService
+    private _eventEmitterService: EventEmitterService
   ) {}
 
   ngOnInit() {
@@ -30,20 +32,20 @@ export class MoviesListComponent implements OnInit {
 
   addToFavorites(id: number): void {
     let newFavoriteMovie: Movie = new Movie();
-    this._tmdbApiService.getMovieById(id).subscribe(data => {
+    this.tmdbApiService.getMovieById(id).subscribe(data => {
       newFavoriteMovie = data;
       newFavoriteMovie.video_url = data.videos.results[0]
-        ? this._tmdbApiService.video_url_base + data.videos.results[0].key
+        ? this.tmdbApiService.video_url_base + data.videos.results[0].key
         : "";
-      this._mongoApiService
+      this.mongoApiService
         .addFavoriteMovie(newFavoriteMovie)
-        .subscribe(data => console.log(data));
+        .subscribe(data => this._eventEmitterService.onLikeIconClick());
     });
   }
 
   removeFromFavorites(mongo_id: string): void {
-    this._mongoApiService
-      .deleteFavoriteMovie(mongo_id)
-      .subscribe(() => console.log("movie deleted"));
+    this.mongoApiService.deleteFavoriteMovie(mongo_id).subscribe(() => {
+      this._eventEmitterService.onDeleteIconClick();
+    });
   }
 }

@@ -5,6 +5,7 @@ import { TmdbApiService } from "src/app/services/tmbd-api.service";
 import { MongoApiService } from "src/app/services/mongo-api.service";
 import { InteractionService } from "src/app/services/interaction.service";
 import { MovieidTransferService } from "src/app/services/movieid-transfer.service";
+import { EventEmitterService } from "src/app/services/event-emitter.service";
 
 @Component({
   selector: "app-movies-navigation",
@@ -26,10 +27,9 @@ export class MoviesNavigationComponent implements OnInit {
     private tmdbApiService: TmdbApiService,
     private mongoApiService: MongoApiService,
     private _interactionService: InteractionService,
-    private _idTransferService: MovieidTransferService
+    private _idTransferService: MovieidTransferService,
+    private _eventEmitterService: EventEmitterService
   ) {}
-
-  ngOnChanges() {}
 
   ngOnInit() {
     this._idTransferService.movieId$.subscribe(id => {
@@ -44,14 +44,26 @@ export class MoviesNavigationComponent implements OnInit {
         this.popularMovies,
         this.filterText
       );
-      console.log(this.popularMovies);
     });
     this.tmdbApiService.getMovies("upcoming").subscribe(uMovies => {
       this.upcomingMovies = uMovies;
     });
-    this.mongoApiService.getMovies().subscribe(fMovies => {
-      this.favoriteMovies = fMovies;
-    });
+    this.getFavoriteMovies();
+    if (this._eventEmitterService.subsVar == undefined) {
+      this._eventEmitterService.subsVar = this._eventEmitterService.favMovieAdded.subscribe(
+        () => this.getFavoriteMovies()
+      );
+    }
+    if (this._eventEmitterService.subsVar2 == undefined) {
+      this._eventEmitterService.subsVar2 = this._eventEmitterService.favMovieDeleted.subscribe(
+        () => {
+          this.mongoApiService.getMovies().subscribe(fMovies => {
+            this.favoriteMovies = fMovies;
+            this.chooseListFromMenu("FAVORITE", this.favoriteMovies);
+          });
+        }
+      );
+    }
   }
 
   filterMovies(textInput: string): void {
@@ -65,7 +77,8 @@ export class MoviesNavigationComponent implements OnInit {
 
   chooseListFromMenu(type: string, list: Movie[]): void {
     this.chosenType = type;
-    this.filteredList = list;
+    this.activeList = list;
+    this.filteredList = this.activeList;
     this.filterText = "";
     this.selectedMovieId = -1;
     this.sendDataToMovieList(type, list, this.filterText);
@@ -76,5 +89,11 @@ export class MoviesNavigationComponent implements OnInit {
     this.selector.list = list;
     this.selector.textFilter = filter;
     this._interactionService.selectMovies(this.selector);
+  }
+
+  getFavoriteMovies() {
+    this.mongoApiService.getMovies().subscribe(fMovies => {
+      this.favoriteMovies = fMovies;
+    });
   }
 }

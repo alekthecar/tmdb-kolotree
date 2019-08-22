@@ -17,12 +17,7 @@ export class MongoApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getMovies(): Observable<Movie[]> {
-    return this.httpClient.get<Movie[]>(this.url_base + "/all");
-  }
-
   addFavoriteMovie(movie: Movie): Observable<Movie> {
-    console.log("from addFavoriteMovie");
     return this.httpClient.post<Movie>(
       this.url_base + "/add",
       JSON.stringify(movie),
@@ -30,9 +25,11 @@ export class MongoApiService {
     );
   }
 
+  getMovies(): Observable<Movie[]> {
+    return this.httpClient.get<Movie[]>(this.url_base + "/all");
+  }
+  
   deleteFavoriteMovie(mongo_id: string) {
-    console.log("from deleteFavoriteMovie");
-    console.log(mongo_id);
     return this.httpClient.delete(this.url_base + "/delete/" + mongo_id);
   }
 }
