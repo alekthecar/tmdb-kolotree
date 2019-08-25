@@ -5,6 +5,8 @@ import { map } from "rxjs/operators";
 import { Movie } from "../model/movie";
 import { Cast } from "../model/cast";
 import { environment } from "../../environments/environment";
+import { MoviesData } from "../model/moviesData";
+import { CastData } from "../model/castData";
 
 @Injectable()
 export class TmdbApiService {
@@ -16,7 +18,7 @@ export class TmdbApiService {
 
   getMovies(type: string): Observable<Movie[]> {
     return this.httpClient
-      .get<Movie[]>(
+      .get<MoviesData>(
         this.movie_url_base +
           type +
           "?api_key=" +
@@ -42,7 +44,7 @@ export class TmdbApiService {
 
   getMovieCastByMovieId(id: number): Observable<Cast[]> {
     return this.httpClient
-      .get<Cast[]>(
+      .get<CastData>(
         this.movie_url_base +
           id +
           "/credits?api_key=" +
